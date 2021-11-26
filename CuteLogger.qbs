@@ -1,6 +1,6 @@
 import qbs
 
-DynamicLibrary {
+StaticLibrary {
   name: "CuteLogger"
 
   files: [ "src/*", "include/*" ]
@@ -26,7 +26,7 @@ DynamicLibrary {
 
   Group {
     qbs.install: true
-    qbs.installDir: "lib"
+    //qbs.installDir: "lib"
     fileTagsFilter: "dynamiclibrary"
   }
 }
