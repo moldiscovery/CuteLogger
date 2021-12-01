@@ -3,7 +3,7 @@ import qbs
 StaticLibrary {
   name: "CuteLogger"
  Group {
-      name: "CuteLoggerGroups"
+      name: "CuteLoggerGroup"
   files: [ "src/*", "include/*" ]
   excludeFiles: [ "src/OutputDebugAppender.*","include/OutputDebugAppender.h", "src/AndroidAppender.*" ]
 }
