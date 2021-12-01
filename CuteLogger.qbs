@@ -4,7 +4,7 @@ StaticLibrary {
   name: "CuteLogger"
 
   files: [ "src/*", "include/*" ]
-  excludeFiles: [ "src/OutputDebugAppender.*", "src/AndroidAppender.*" ]
+  excludeFiles: [ "src/OutputDebugAppender.*","include/OutputDebugAppender.h", "src/AndroidAppender.*" ]
 
   Group {
     name: "windows-OutputDebugAppender"
