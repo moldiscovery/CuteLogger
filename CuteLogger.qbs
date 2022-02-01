@@ -7,12 +7,14 @@ StaticLibrary {
   files: [ "src/*", "include/*" ]
   excludeFiles: [ "src/OutputDebugAppender.*","include/OutputDebugAppender.h", "src/AndroidAppender.*" ]
 }
+ /*
   Group {
     name: "windows-OutputDebugAppender"
 
     condition: qbs.targetOS == "windows"
     files: [ "src/OutputDebugAppender.cpp", "include/OutputDebugAppender.h" ]
   }
+  */
 
   Depends { name: "cpp" }
   cpp.includePaths: "include"
