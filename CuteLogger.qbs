@@ -1,6 +1,6 @@
 import qbs
 
-StaticLibrary {
+DynamicLibrary {
   name: "CuteLogger"
  Group {
       name: "CuteLoggerGroup"
@@ -30,6 +30,7 @@ StaticLibrary {
   Group {
     qbs.install: true
     //qbs.installDir: "lib"
-    fileTagsFilter: "dynamiclibrary"
+    fileTagsFilter: product.type
+    //fileTagsFilter: "dynamiclibrary"
   }
 }
