@@ -54,3 +54,5 @@ IF (ENABLE_TESTS)
   ADD_EXECUTABLE(basictest test/basictest.cpp)
   TARGET_LINK_LIBRARIES(basictest Qt5::Core Qt5::Test CuteLogger)
 ENDIF ()
+
+target_compile_definitions(${library_target} PRIVATE CUTELOGGER_LIBRARY)
