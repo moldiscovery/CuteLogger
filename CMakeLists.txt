@@ -1,11 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
-SET(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 PROJECT(CuteLogger)
 
-FIND_PACKAGE(Qt5Core REQUIRED)
+# Qt major version: inherited from the parent project (e.g. Lipostar sets it),
+# otherwise detected here, preferring Qt 6
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 
 ADD_DEFINITIONS(-DCUTELOGGER_LIBRARY)
 
@@ -41,17 +47,17 @@ ENDIF(WIN32)
 SET(library_target CuteLogger)
 
 ADD_LIBRARY(${library_target} SHARED ${sources} ${includes})
-TARGET_LINK_LIBRARIES(${library_target} Qt5::Core)
+TARGET_LINK_LIBRARIES(${library_target} Qt::Core)
 TARGET_INCLUDE_DIRECTORIES(${library_target} PUBLIC include)
 
 
 SET(ENABLE_TESTS OFF CACHE BOOL "Enable building CuteLogger tests")
 IF (ENABLE_TESTS)
   SET(CMAKE_AUTOMOC ON)
-  FIND_PACKAGE(Qt5Test REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
 
   ADD_EXECUTABLE(basictest test/basictest.cpp)
-  TARGET_LINK_LIBRARIES(basictest Qt5::Core Qt5::Test CuteLogger)
+  TARGET_LINK_LIBRARIES(basictest Qt::Core Qt::Test CuteLogger)
 ENDIF ()
 
 target_compile_definitions(${library_target} PRIVATE CUTELOGGER_LIBRARY)
