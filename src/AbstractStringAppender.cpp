@@ -20,7 +20,7 @@
 #include <QReadLocker>
 #include <QWriteLocker>
 #include <QDateTime>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QCoreApplication>
 #include <QThread>
 
@@ -155,12 +155,12 @@ QByteArray AbstractStringAppender::qCleanupFuncinfo(const char* name)
   }
 
   bool hasLambda = false;
-  QRegExp lambdaRegex("::<lambda\\(.*\\)>");
-  int lambdaIndex = lambdaRegex.indexIn(QString::fromLatin1(info));
-  if (lambdaIndex != -1)
+  static const QRegularExpression lambdaRegex("::<lambda\\(.*\\)>");
+  const QRegularExpressionMatch lambdaMatch = lambdaRegex.match(QString::fromLatin1(info));
+  if (lambdaMatch.hasMatch())
   {
     hasLambda = true;
-    info.remove(lambdaIndex, lambdaRegex.matchedLength());
+    info.remove(lambdaMatch.capturedStart(), lambdaMatch.capturedLength());
   }
 
   // operator names with '(', ')', '<', '>' in it
@@ -405,7 +405,10 @@ QString AbstractStringAppender::formattedString(const QDateTime& timeStamp, Logg
 
       // Filename without a path
       else if (command == QLatin1String("file"))
-        chunk = QString(QLatin1String(file)).section(QRegExp("[/\\\\]"), -1);
+      {
+        static const QRegularExpression pathSeparatorRegex("[/\\\\]");
+        chunk = QString(QLatin1String(file)).section(pathSeparatorRegex, -1);
+      }
 
       // Source line number
       else if (command == QLatin1String("line"))
